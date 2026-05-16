@@ -42,6 +42,7 @@ class TunService : VpnService(), CoroutineScope by CoroutineScope(Dispatchers.De
         install(AppListCacheModule(self))
         install(TimeZoneModule(self))
         install(SuspendModule(self))
+        val wifiSsid = install(WifiSsidObserveModule(self))
 
         try {
             tun.open()
@@ -53,6 +54,11 @@ class TunService : VpnService(), CoroutineScope by CoroutineScope(Dispatchers.De
                     }
                     config.onEvent {
                         reason = it.message
+
+                        true
+                    }
+                    wifiSsid.onEvent {
+                        reason = "WiFi SSID matched"
 
                         true
                     }

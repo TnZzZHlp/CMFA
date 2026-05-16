@@ -65,4 +65,14 @@ class ServiceStore(context: Context) {
         key = "dynamic_notification",
         defaultValue = true
     )
+
+    var wifiSsidEnabled by store.boolean(
+        key = "wifi_ssid_enabled",
+        defaultValue = false
+    )
+
+    var wifiSsidList by store.stringSet(
+        key = "wifi_ssid_list",
+        defaultValue = emptySet()
+    )
 }

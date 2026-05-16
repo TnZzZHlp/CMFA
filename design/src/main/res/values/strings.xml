@@ -348,6 +348,11 @@
     <string name="hide_app_icon_desc">You can dial *#*#252746382#*#* to open this App</string>
     <string name="hide_from_recents_title">Hide from Recents</string>
     <string name="hide_from_recents_desc">Hide app from the Recent apps screen</string>
+    <string name="wifi_ssid_auto">WiFi SSID Auto</string>
+    <string name="wifi_ssid_enabled">WiFi SSID Hook</string>
+    <string name="wifi_ssid_enabled_summary">Automatically disconnect VPN on listed WiFi networks</string>
+    <string name="wifi_ssid_list">WiFi SSID List</string>
+    <string name="wifi_ssid_list_placeholder">No SSIDs configured</string>
     <string name="import_from_qr_no_permission">Camera access is restricted. Please enable it in Settings.</string>
     <string name="import_from_qr_exception">An unhandled system exception occurred.</string>
 

@@ -130,14 +130,49 @@ class NetworkSettingsDesign(
                 }
             }
 
+            category(R.string.wifi_ssid_auto)
+
+            val ssidDependencies: MutableList<Preference> = mutableListOf()
+
+            val wifiSsidSwitch = switch(
+                value = srvStore::wifiSsidEnabled,
+                title = R.string.wifi_ssid_enabled,
+                summary = R.string.wifi_ssid_enabled_summary,
+                configure = vpnDependencies::add,
+            ) {
+                listener = OnChangedListener {
+                    ssidDependencies.forEach {
+                        it.enabled = srvStore.wifiSsidEnabled
+                    }
+                }
+            }
+
+            val ssidListProxy = SsidListDelegate(srvStore)
+            editableTextList(
+                value = ssidListProxy::value,
+                adapter = TextAdapter.String,
+                title = R.string.wifi_ssid_list,
+                placeholder = R.string.wifi_ssid_list_placeholder,
+                configure = ssidDependencies::add,
+            )
+
+            ssidDependencies.forEach {
+                it.enabled = srvStore.wifiSsidEnabled
+            }
+
             if (running) {
                 vpn.enabled = false
 
                 vpnDependencies.forEach {
                     it.enabled = false
                 }
+
+                ssidDependencies.forEach {
+                    it.enabled = false
+                }
             } else {
                 vpn.listener?.onChanged()
+                wifiSsidSwitch.listener?.onChanged()
             }
         }
 
@@ -148,5 +183,11 @@ class NetworkSettingsDesign(
                 showToast(R.string.options_unavailable, ToastDuration.Indefinite)
             }
         }
+    }
+
+    private class SsidListDelegate(private val store: ServiceStore) {
+        var value: List<String>?
+            get() = store.wifiSsidList.toList().ifEmpty { null }
+            set(v) { store.wifiSsidList = v?.toSet() ?: emptySet() }
     }
 }
